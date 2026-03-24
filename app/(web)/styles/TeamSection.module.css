@@ -1,0 +1,94 @@
+.total_wrper {
+  width: 1210px;
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+.section {
+  padding: 20px;
+}
+
+.title {
+  font-size: 32px;
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  position: relative;
+  /* color: #4070f4; */
+  color: #5cb874;
+}
+
+.title::after {
+  content: "";
+  position: absolute;
+  width: 20%;
+  height: 2px;
+  background-image: linear-gradient(to left, transparent 5%, #5cb874);
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.teamRow {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.member {
+  flex: 1 1 250px;
+  margin: 10px;
+  text-align: center;
+  padding: 20px 10px;
+  cursor: pointer;
+  max-width: 300px;
+  transition: all 0.3s;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.member:hover {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-20px);
+}
+
+.member img {
+  display: block;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  /* border: 2px solid rgb(64, 112, 244); */
+  border: 2px solid#5cb874;
+  border-radius: 50%;
+  margin: 0 auto;
+}
+
+.member h2 {
+  text-transform: uppercase;
+  font-size: 24px;
+  color: #726a95;
+  margin: 10px 0 5px;
+}
+
+.member p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #838383;
+  margin-bottom: 5px;
+}
+
+.member .jobRole {
+  font-style: italic;
+  color: #838383;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .member {
+    flex-basis: 45%;
+  }
+  .title {
+    font-size: 30px;
+  }
+}

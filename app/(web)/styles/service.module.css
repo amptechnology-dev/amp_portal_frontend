@@ -1,0 +1,18 @@
+.services {
+  background-color: aliceblue;
+}
+.two-sections {
+  display: flex;
+  justify-content: space-around;
+  margin: 0 auto;
+  /* width: 1200px; */
+}
+.notice-section,
+.image-slider-section {
+  flex: 1;
+  /* padding: 20px; */
+  /* width: 25%; */
+}
+.image-slider-section {
+  background-color: #f2f2f2;
+}

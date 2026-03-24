@@ -1,0 +1,29 @@
+{
+  "name": "corporate_website",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@splidejs/react-splide": "^0.7.12",
+    "axios": "^1.6.8",
+    "bootstrap": "^5.3.3",
+    "moment": "^2.30.1",
+    "next": "14.2.3",
+    "react": "^18",
+    "react-bootstrap": "^2.10.2",
+    "react-dom": "^18",
+    "react-icons": "^5.2.1",
+    "react-player": "^2.16.0",
+    "react-ui-scrollspy": "^2.3.0",
+    "sweetalert": "^2.1.2"
+  },
+  "devDependencies": {
+    "eslint": "^8",
+    "eslint-config-next": "14.2.3"
+  }
+}
