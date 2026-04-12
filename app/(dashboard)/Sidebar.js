@@ -22,6 +22,7 @@ import {
   FaPhotoVideo,
   FaBookmark,
   FaPoll,
+  FaBriefcase,
 } from "react-icons/fa";
 import NavItem from "./dashboard/components/NavItems";
 
@@ -166,6 +167,13 @@ function Sidebar() {
                 text="Services"
               />
             )}
+
+            <NavItem href="/dashboard/jobs" icon={FaBriefcase} text="Jobs" />
+            <NavItem
+              href="/dashboard/application"
+              icon={FaClipboardList}
+              text="Applications"
+            />
 
             {menu?.includes("counter") && (
               <NavItem
