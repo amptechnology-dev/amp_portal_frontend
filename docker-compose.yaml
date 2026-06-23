@@ -1,0 +1,16 @@
+services:
+  app:
+    build: .
+    container_name: amp-office-frontend
+    restart: unless-stopped
+    env_file:
+      - .env
+    expose:
+      - "6010"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    external: true
+    name: amp_portal_backend_app-network
