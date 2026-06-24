@@ -40,7 +40,7 @@ function Sidebar() {
         `${process.env.NEXT_PUBLIC_BACKLINK}/dashboard/office/list`,
         {
           withCredentials: true,
-        }
+        },
       );
       setMenu(res.data.data.enabled_services);
       setofficeName(res.data.data.name);
@@ -63,15 +63,6 @@ function Sidebar() {
             <a className="d-block">
               <font color="white">{officeName}</font>
             </a>
-          </div>
-          <div className="image">
-            <img
-              src="/avater.png"
-              className="img-circle elevation-2"
-              alt="User Image"
-              width={50}
-              height={50}
-            />
           </div>
         </div>
 

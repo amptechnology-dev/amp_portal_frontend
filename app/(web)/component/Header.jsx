@@ -122,7 +122,7 @@ const Header = ({ data, links = {} }) => {
         <div className="container d-flex align-items-center justify-content-between">
           <div className="logo">
             <Link href="/">
-              <Image src={`${process.env.NEXT_PUBLIC_BACKPUBLIC}/${data?.logo?.slice(7)}`} alt={data?.name} width={220} height={100} />
+              <Image src={`https://${data?.logo?.slice(7)}`} alt={data?.name} width={220} height={100} />
             </Link>
           </div>
 

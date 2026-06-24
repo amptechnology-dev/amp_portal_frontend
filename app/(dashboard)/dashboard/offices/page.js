@@ -17,16 +17,22 @@ function Page() {
     activity_bg_iamge: null,
     banner: null,
   });
+
+  // preview states
+  const [previews, setPreviews] = useState({
+    logo: null,
+    logo_alt: null,
+    notification_bg_iamge: null,
+    activity_bg_iamge: null,
+  });
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [mobileError, setMobileError] = useState("");
   const [logoError, setLogoError] = useState("");
   const [bannerError, setBannerError] = useState("");
 
-  const validateMobile = (mobile) => {
-    const regex = /^\d{10}$/;
-    return regex.test(mobile);
-  };
+  const validateMobile = (mobile) => /^\d{10}$/.test(mobile);
 
   useEffect(() => {
     fetchOffices();
@@ -50,43 +56,37 @@ function Page() {
     const { name, value } = e.target;
 
     if (name === "mobile") {
-      const isValidMobile = validateMobile(value.trim());
-      setMobileError(isValidMobile ? "" : "Mobile number must be 10 digits");
+      setMobileError(
+        validateMobile(value.trim()) ? "" : "Mobile number must be 10 digits"
+      );
     }
 
-    if (
-      name === "logo" ||
-      name === "banner" ||
-      name === "logo_alt" ||
-      name === "notification_bg_iamge" ||
-      name === "activity_bg_iamge"
-    ) {
+    const imageFields = ["logo", "banner", "logo_alt", "notification_bg_iamge", "activity_bg_iamge"];
+
+    if (imageFields.includes(name)) {
       const file = e.target.files[0];
-      if (file) {
-        const fileSizeInBytes = file.size;
-        const maxSize = name === "logo" ? 512 * 1024 : 1024 * 1024; // 512kb for logo, 1mb for banner
-        if (fileSizeInBytes > maxSize) {
-          if (name === "logo") {
-            setLogoError("Logo size should be less than 512kb.");
-          } else {
-            setBannerError("Image size should be less than 1mb.");
-          }
-          return;
+      if (!file) return;
+
+      const maxSize = name === "logo" ? 512 * 1024 : 1024 * 1024;
+      if (file.size > maxSize) {
+        if (name === "logo") {
+          setLogoError("Logo size should be less than 512kb.");
         } else {
-          setLogoError("");
-          setBannerError("");
+          setBannerError("Image size should be less than 1mb.");
         }
+        return;
       }
-      setFormData({
-        ...formData,
-        [name]: file,
-      });
+
+      setLogoError("");
+      setBannerError("");
+
+      // generate local preview
+      const objectUrl = URL.createObjectURL(file);
+      setPreviews((prev) => ({ ...prev, [name]: objectUrl }));
+
+      setFormData((prev) => ({ ...prev, [name]: file }));
     } else {
-      const newValue = value.trimStart();
-      setFormData({
-        ...formData,
-        [name]: newValue,
-      });
+      setFormData((prev) => ({ ...prev, [name]: value.trimStart() }));
     }
   };
 
@@ -102,225 +102,144 @@ function Page() {
         formDataToSubmit,
         {
           withCredentials: true,
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+          headers: { "Content-Type": "multipart/form-data" },
         }
       );
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+      setTimeout(() => window.location.reload(), 1000);
     } catch (error) {
       console.error("Error submitting form:", error);
     }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  // helper: existing image src from server string
+  const existingSrc = (field) => {
+    const val = formData?.[field];
+    if (!val || typeof val !== "string") return null;
+    return `https://${val.slice(7)}`;
+  };
+
+  // helper: returns preview if new file selected, else existing
+  const imgSrc = (field) => previews[field] || existingSrc(field);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="container pt-2">
       <div>
-        <h2 style={{ color: "#007bff" }}> Office Details</h2>
+        <h2 style={{ color: "#007bff" }}>Office Details</h2>
         <form onSubmit={handleSubmit}>
-          {/* Form fields */}
           <div className="form-group">
-            <label>
-              Name <span style={{ color: "red" }}>*</span>
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              readOnly
-            />
+            <label>Name <span style={{ color: "red" }}>*</span></label>
+            <input type="text" className="form-control" name="name" value={formData.name} onChange={handleChange} readOnly />
           </div>
+
           <div className="form-group">
-            <label>
-              Address <span style={{ color: "red" }}>*</span>
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
-              required
-              readOnly
-            />
+            <label>Address <span style={{ color: "red" }}>*</span></label>
+            <input type="text" className="form-control" name="address" value={formData.address} onChange={handleChange} required readOnly />
           </div>
+
           <div className="form-group">
             <label>Email</label>
-            <input
-              type="email"
-              className="form-control"
-              name="email"
-              value={formData.email.trim()}
-              onChange={handleChange}
-              required
-            />
+            <input type="email" className="form-control" name="email" value={formData.email.trim()} onChange={handleChange} required />
           </div>
+
           <div className="form-group">
             <label>Landmark</label>
-            <input
-              type="text"
-              className="form-control"
-              name="landmark"
-              value={formData.landmark}
-              onChange={handleChange}
-              required
-            />
+            <input type="text" className="form-control" name="landmark" value={formData.landmark} onChange={handleChange} required />
           </div>
+
           <div className="form-group">
-            <label>
-              Mobile No <span style={{ color: "red" }}>*</span>
-            </label>
-            <input
-              type="tel"
-              className="form-control"
-              name="mobile"
-              value={formData.mobile.trim()}
-              onChange={handleChange}
-              required
-            />
+            <label>Mobile No <span style={{ color: "red" }}>*</span></label>
+            <input type="tel" className="form-control" name="mobile" value={formData.mobile.trim()} onChange={handleChange} required />
             {mobileError && <div className="text-danger">{mobileError}</div>}
           </div>
+
           <div className="form-group">
             <label>WhatsApp No</label>
-            <input
-              type="tel"
-              className="form-control"
-              name="whatsapp"
-              value={formData.whatsapp.trim()}
-              onChange={handleChange}
-              required
-            />
+            <input type="tel" className="form-control" name="whatsapp" value={formData.whatsapp.trim()} onChange={handleChange} required />
           </div>
+
+          {/* Logo + Logo Alt */}
           <div className="row">
-            <div className="form-group col-6">
-              <label>
-                Logo
-                <span className="font-italic text-sm font-weight-light">
-                  (max size: 512KB , 100px X 100px)
-                </span>
-              </label>
-
-              <input
-                type="file"
-                className="form-control"
-                name="logo"
-                onChange={handleChange}
-                // accept="application/pdf"
-              />
-              {logoError && <div className="text-danger">{logoError}</div>}
-              <Image
-                src={`${
-                  process.env.NEXT_PUBLIC_BACKPUBLIC
-                }/${formData?.logo?.slice(7)}`}
-                width={100}
-                height={100}
-              />
-              {/* <Image src={formData.logo} width={100} height={100} /> */}
-            </div>
-            <div className="form-group col-6">
-              <label>
-                Logo Alt{" "}
-                <span className="font-italic text-sm font-weight-light">
-                  (max size: 512KB , 100px X 100px)
-                </span>
-              </label>
-
-              <input
-                type="file"
-                className="form-control"
-                name="logo_alt"
-                onChange={handleChange}
-                accept="image/jpg, image/jpeg, image/png"
-              />
-              {logoError && <div className="text-danger">{logoError}</div>}
-              <Image
-                src={`${
-                  process.env.NEXT_PUBLIC_BACKPUBLIC
-                }/${formData?.logo?.slice(7)}`}
-                width={100}
-                height={100}
-              />
-              {/* <Image src={formData.logo} width={100} height={100} /> */}
-            </div>
+            {["logo", "logo_alt"].map((field) => (
+              <div className="form-group col-6" key={field}>
+                <label>
+                  {field === "logo" ? "Logo" : "Logo Alt"}{" "}
+                  <span className="font-italic text-sm font-weight-light">
+                    (max size: 512KB, 100px × 100px)
+                  </span>
+                </label>
+                <input
+                  type="file"
+                  className="form-control"
+                  name={field}
+                  onChange={handleChange}
+                  accept="image/jpg, image/jpeg, image/png"
+                />
+                {logoError && <div className="text-danger">{logoError}</div>}
+                {imgSrc(field) && (
+                  <div className="mt-2">
+                    <img
+                      src={imgSrc(field)}
+                      width={100}
+                      height={100}
+                      style={{ objectFit: "cover", borderRadius: 8, border: "1px solid #dee2e6" }}
+                      alt={field}
+                    />
+                    {previews[field] && (
+                      <span className="ml-2 text-success" style={{ fontSize: 12 }}>
+                        ✓ New image selected
+                      </span>
+                    )}
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
 
-          <div className="form-group">
-            {/* <label>
-              Banner{" "}
-              <span className="font-italic text-sm font-weight-light">
-                (max size: 1MB, 300px X 200px)
-              </span>
-            </label>
-            <input
-              type="file"
-              className="form-control-file"
-              name="banner"
-              onChange={handleChange}
-            /> */}
-            {bannerError && <div className="text-danger">{bannerError}</div>}
-            {/* <Image
-              src={`${
-                process.env.NEXT_PUBLIC_BACKPUBLIC
-              }/${formData.banner.slice(7)}`}
-              width={300}
-              height={200}
-            /> */}
-            {/* <Image src={formData.banner} width={300} height={200} /> */}
-          </div>
+          {bannerError && <div className="text-danger">{bannerError}</div>}
+
+          {/* Notification BG + Activity BG */}
           <div className="row">
-            <div className="col-4">
-              <label>Notification Background</label>
-              <input
-                type="file"
-                className="form-control"
-                name="notification_bg_iamge"
-                onChange={handleChange}
-                accept="image/jpg, image/jpeg, image/png"
-              />
-              {logoError && <div className="text-danger">{logoError}</div>}
-              <Image
-                src={`${
-                  process.env.NEXT_PUBLIC_BACKPUBLIC
-                }/${formData?.notification_bg_iamge?.slice(7)}`}
-                width={300}
-                height={100}
-              />
-            </div>
-            <div className="col-4">
-              <label>Activity Background</label>
-              <input
-                type="file"
-                className="form-control"
-                name="activity_bg_iamge"
-                onChange={handleChange}
-                accept="image/jpg, image/jpeg, image/png"
-              />
-              {logoError && <div className="text-danger">{logoError}</div>}
-              <Image
-                src={`${
-                  process.env.NEXT_PUBLIC_BACKPUBLIC
-                }/${formData?.activity_bg_iamge?.slice(7)}`}
-                width={300}
-                height={100}
-              />
-            </div>
+            {["notification_bg_iamge", "activity_bg_iamge"].map((field) => (
+              <div className="col-4 form-group" key={field}>
+                <label>
+                  {field === "notification_bg_iamge" ? "Notification Background" : "Activity Background"}
+                </label>
+                <input
+                  type="file"
+                  className="form-control"
+                  name={field}
+                  onChange={handleChange}
+                  accept="image/jpg, image/jpeg, image/png"
+                />
+                {bannerError && <div className="text-danger">{bannerError}</div>}
+                {imgSrc(field) && (
+                  <div className="mt-2">
+                    <img
+                      src={imgSrc(field)}
+                      width={300}
+                      height={100}
+                      style={{ objectFit: "cover", borderRadius: 8, border: "1px solid #dee2e6" }}
+                      alt={field}
+                    />
+                    {previews[field] && (
+                      <span className="text-success" style={{ fontSize: 12 }}>
+                        ✓ New image selected
+                      </span>
+                    )}
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
+
           <button type="submit" className="btn btn-primary">
             Modify
           </button>
         </form>
-        <hr></hr>
+        <hr />
       </div>
     </div>
   );

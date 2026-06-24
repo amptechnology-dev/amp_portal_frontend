@@ -196,9 +196,7 @@ function Page() {
                 <td>{advertisement.title}</td>
                 <td>
                   <Image
-                    src={`${
-                      process.env.NEXT_PUBLIC_BACKPUBLIC
-                    }/${advertisement.image.slice(7)}`}
+                    src={`https://${advertisement.image.slice(7)}`}
                     alt={`Image of ${advertisement.title}`}
                     width={200}
                     height={200}

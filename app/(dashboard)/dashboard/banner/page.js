@@ -140,7 +140,7 @@ function Page() {
               <tr key={index}>
                 <td>
                   <Image
-                    src={`${process.env.NEXT_PUBLIC_BACKPUBLIC}/${banner.slice(
+                    src={`https://${banner.slice(
                       7
                     )}`}
                     alt={`Banner ${index}`}
