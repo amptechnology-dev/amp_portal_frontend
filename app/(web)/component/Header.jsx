@@ -1,14 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import {
-  FaTwitter,
-  FaFacebook,
-  FaInstagram,
-  FaLinkedin,
   FaEnvelope,
   FaPhone,
   FaList,
-  FaYoutube,
 } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,14 +13,8 @@ const Header = ({ data, links = {} }) => {
   const [activeSection, setActiveSection] = useState("");
 
   const sections = [
-    "home",
-    "about",
-    "products",
-    "gallery",
-    "services",
-    "team",
-    "recruitment",
-    "contact",
+    "home", "about", "products", "gallery",
+    "services", "team", "recruitment", "contact",
   ];
 
   useEffect(() => {
@@ -37,208 +26,159 @@ const Header = ({ data, links = {} }) => {
         const sectionElement = document.getElementById(section);
         if (sectionElement) {
           const { offsetTop, offsetHeight } = sectionElement;
-          if (
-            scrollPosition >= offsetTop &&
-            scrollPosition < offsetTop + offsetHeight
-          ) {
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
             sectionInView = true;
             setActiveSection(section);
           }
         }
       });
 
-      if (!sectionInView) {
-        setActiveSection("");
-      }
+      if (!sectionInView) setActiveSection("");
     };
 
-    if (typeof window !== "undefined") {
-      window.addEventListener("scroll", handleScroll);
-      handleScroll();
-    }
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-    return () => {
-      if (typeof window !== "undefined") {
-        window.removeEventListener("scroll", handleScroll);
-      }
-    };
-  }, [sections]);
-
-  const toggleMobileNav = () => {
-    setNavbarMobile(!navbarMobile);
-  };
+  const toggleMobileNav = () => setNavbarMobile((prev) => !prev);
 
   const handleScrollTo = (e) => {
     const href = e.currentTarget.getAttribute("href");
-
-    // External pages (like /gallery) handle normally
     if (href.startsWith("/")) return;
-
     e.preventDefault();
     const sectionId = href.replace("#", "");
-    const el = document.getElementById(sectionId);
 
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    const scrollToSection = (retries = 5) => {
+      const el = document.getElementById(sectionId);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (navbarMobile) setNavbarMobile(false);
+      } else if (retries > 0) {
+        setTimeout(() => scrollToSection(retries - 1), 200);
+      }
+    };
+
+    scrollToSection();
   };
 
-  return (
-    <div className="sticky-top ">
-      <section id="topbar" className="d-md-flex align-items-center">
-        <div className="container d-flex justify-content-center justify-content-md-between ">
-          <div className="contact-info d-flex align-items-center  ">
-            <FaEnvelope />
-            <a className="ms-1" href={"mailto:" + data?.email}>
-              {data?.email}
-            </a>
-            <a className="ms-2" href={"tel:" + data?.mobile}>
-              <FaPhone /> +91 {data?.mobile}
-            </a>
-          </div>
-          <div className="social-links d-none d-md-block">
-            {links?.facebook && (
-              <a
-                href={links?.facebook}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FaFacebook style={{ color: "blue" }} />
-              </a>
-            )}
-            {links?.twitter && (
-              <a
-                href={links?.twitter}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FaTwitter style={{ color: "green" }} />
-              </a>
-            )}
-            {links?.instagram && (
-              <a
-                href={links?.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FaInstagram style={{ color: "purple" }} />
-              </a>
-            )}
-            {links?.linkedin && (
-              <a
-                href={links?.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FaLinkedin style={{ color: "blue" }} />
-              </a>
-            )}
-            {links?.youtube && (
-              <a
-                href={links?.youtube}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FaYoutube style={{ color: "red" }} />
-              </a>
-            )}
-          </div>
-        </div>
-      </section>
+  const navItems = [
+    { id: "home", label: "Home", href: "/#home" },
+    { id: "about", label: "About Us", href: "/#about" },
+    { id: "products", label: "Products", href: "/#products" },
+    { id: "gallery", label: "Gallery", href: "#gallery" },
+    { id: "services", label: "Services", href: "/#services" },
+  ];
 
+  return (
+    <div className="sticky-top">
       <header
         id="header"
         className={`d-flex align-items-center ${navbarMobile ? "navbar-mobile" : ""}`}
+        style={{ height: "70px" }}
       >
         <div className="container d-flex align-items-center justify-content-between">
+          {/* Logo */}
           <div className="logo">
             <Link href="/">
               <Image
                 src={`https://${data?.logo?.slice(7)}`}
-                alt={data?.name}
-                width={220}
-                height={100}
+                alt={data?.name || "Logo"}
+                width={0}
+                height={0}
+                sizes="100vw"
+                style={{ width: "auto", height: "55px", objectFit: "contain" }}
+                priority
               />
             </Link>
           </div>
 
+          {/* Nav */}
           <nav
             id="navbar"
             className={`navbar ${navbarMobile ? "navbar-mobile" : ""}`}
           >
             <ul>
-              <li>
-                <Link
-                  className={`nav-link fw-semibold ${activeSection === "home" && "active"}`}
-                  href="/#home"
-                  onClick={handleScrollTo}
-                >
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className={`nav-link fw-semibold ${activeSection === "about" && "active"}`}
-                  href="/#about"
-                  onClick={handleScrollTo}
-                >
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className={`nav-link fw-semibold ${activeSection === "products" && "active"}`}
-                  href="/#products"
-                  onClick={handleScrollTo}
-                >
-                  Products
-                </Link>
-              </li>
+              {navItems.map(({ id, label, href }) => (
+                <li key={id}>
+                  <Link
+                    className={`nav-link fw-semibold ${activeSection === id ? "active" : ""}`}
+                    href={href}
+                    onClick={handleScrollTo}
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
 
+              {/* Contact — normal nav link, no green button */}
               <li>
                 <Link
-                  className={`nav-link fw-semibold ${activeSection === "gallery" ? "active" : ""}`}
-                  href="#gallery"
-                  onClick={handleScrollTo}
-                >
-                  Gallery
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className={`nav-link fw-semibold ${activeSection === "services" && "active"}`}
-                  href="/#services"
-                  onClick={handleScrollTo}
-                >
-                  Services
-                </Link>
-              </li>
-
-              {/* <li>
-                <Link className={`nav-link fw-semibold ${activeSection === "team" && "active"}`} href="/#team" onClick={handleScrollTo}>
-                  Team
-                </Link>
-              </li>
-              <li>
-                <Link className={`nav-link fw-semibold ${activeSection === "recruitment" && "active"}`} href="/recruitment" onClick={handleScrollTo}>
-                  Recruitment
-                </Link>
-              </li> */}
-              <li>
-                <Link
-                  className={`nav-link fw-semibold getstarted ${activeSection === "contact" && "active"}`}
+                  className={`nav-link fw-semibold ${activeSection === "contact" ? "active" : ""}`}
                   href="/#contact"
                   onClick={handleScrollTo}
                 >
                   Contact
                 </Link>
               </li>
-              {/* <li>
-                <a className="getstarted" href="/login" onClick={handleScrollTo}>
-                  Login
-                </a>
-              </li> */}
+
+              {/* Email & Phone with green border box */}
+              <li className="d-none d-xl-flex align-items-center">
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "14px",
+                    marginLeft: "20px",
+                    padding: "6px 16px",
+                    border: "1.5px solid #5cb874",
+                    borderRadius: "8px",
+                    backgroundColor: "#f6fdf8",
+                  }}
+                >
+                  <a
+                    href={`mailto:${data?.email}`}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "6px",
+                      fontSize: "13px",
+                      color: "#333",
+                      whiteSpace: "nowrap",
+                      padding: "0",
+                      transition: "color 0.2s",
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = "#5cb874")}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = "#333")}
+                  >
+                    <FaEnvelope style={{ color: "#5cb874", fontSize: "13px", flexShrink: 0 }} />
+                    {data?.email}
+                  </a>
+
+                  <span style={{ width: "1px", height: "16px", backgroundColor: "#5cb874", opacity: 0.4 }} />
+
+                  <a
+                    href={`tel:${data?.mobile}`}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "6px",
+                      fontSize: "13px",
+                      color: "#333",
+                      whiteSpace: "nowrap",
+                      padding: "0",
+                      transition: "color 0.2s",
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = "#5cb874")}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = "#333")}
+                  >
+                    <FaPhone style={{ color: "#5cb874", fontSize: "13px", flexShrink: 0 }} />
+                    +91 {data?.mobile}
+                  </a>
+                </div>
+              </li>
             </ul>
+
             <FaList
               className="mobile-nav-toggle text-success"
               onClick={toggleMobileNav}
