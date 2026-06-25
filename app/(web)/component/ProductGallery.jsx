@@ -6,6 +6,9 @@ import Image from "next/image";
 const ProductGallery = ({ projects = [], loadButton = false }) => {
   const [modalData, setModalData] = useState(null);
 
+
+  console.log("product", projects)
+
   const openModal = (product) => {
     setModalData(product);
     document.body.style.overflow = "hidden";
@@ -110,9 +113,7 @@ const ProductGallery = ({ projects = [], loadButton = false }) => {
             </span>
             <div className={styles.modalImage}>
               <Image
-                src={`${
-                  process.env.NEXT_PUBLIC_BACKPUBLIC
-                }/${modalData.image.slice(7)}`}
+                src={`https://${modalData.image.slice(7)}`}
                 alt="Product Image"
                 width={400}
                 height={500}

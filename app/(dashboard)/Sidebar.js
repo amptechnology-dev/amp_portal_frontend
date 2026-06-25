@@ -82,9 +82,9 @@ function Sidebar() {
             )}
             {menu?.includes("video-banner") && (
               <NavItem
-                href="/dashboard/video_banner"
+                href="/dashboard/banner"
                 icon={FaDiceD6}
-                text="Video Banner"
+                text="Banner"
               />
             )}
 

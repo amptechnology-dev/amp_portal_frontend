@@ -12,8 +12,8 @@ export default function Home() {
   return (
     <main>
       <HeroSection />
-      <Product />
       <AboutSection />
+      <Product />
       {/* <NoticeAndAds /> */}
       <GallerySmall />
       <ServiceGrid />

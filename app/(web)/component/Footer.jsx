@@ -41,13 +41,7 @@ export default function Footer({ data = {}, links = {} }) {
         <div
           className="footer-links font-weight-bold"
           style={{ fontSize: "17px" }}
-        >
-          {data?.enabled_services?.includes("faq") && <a href="/faq">FAQ</a>}
-          {" | "}
-          {data?.enabled_services?.includes("grievance") && (
-            <a href="/grievance">Grievance</a>
-          )}
-        </div>
+        ></div>
 
         <hr />
         <div className="copyright">
