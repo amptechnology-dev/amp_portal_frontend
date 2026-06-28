@@ -1,100 +1,58 @@
+// ContactForm.jsx
 "use client";
 import swal from "sweetalert";
-import { useFormState, useEffect } from "react-dom";
+import { useFormState } from "react-dom";
+import { useEffect } from "react";
 
 export default function ContactForm({ handleSubmit }) {
   const [state, formAction] = useFormState(handleSubmit, null);
-  if (state?.success) {
-    swal({
-      icon: "success",
-      title: "Thank You!",
-      text: "Message sent Succesfully! Our team will get back to you shortly.",
-      showConfirmButton: false,
-      timer: 3500,
-    });
-    document.getElementById("contactForm").reset();
-  } else if (state?.success === false) {
-    swal({
-      icon: "error",
-      title: "Error!",
-      text: "Something went wrong. Please try again later.",
-      showConfirmButton: false,
-      timer: 3500,
-    });
-  }
+
+  useEffect(() => {
+    if (state?.success === true) {
+      swal({ icon: "success", title: "Thank You!", text: "Message sent successfully! We'll get back to you shortly.", timer: 3500 });
+      document.getElementById("contactForm")?.reset();
+    } else if (state?.success === false) {
+      swal({ icon: "error", title: "Error!", text: "Something went wrong. Please try again later.", timer: 3500 });
+    }
+  }, [state]);
 
   return (
-    <form action={formAction} className="php-email-form" id="contactForm">
-      <div className="row mb-2">
-        <div className="form-group">
-          <label htmlFor="name">
-            Your Name <span className="text-danger">*</span>
-          </label>
-          <input
-            type="text"
-            name="name"
-            // value={formData.name}
-            // onChange={handleChange}
-            className="form-control"
-            id="name"
-            required
-          />
-        </div>
+    <form action={formAction} id="contactForm">
+      <div className="ctc-form-group">
+        <label className="ctc-form-label">
+          Your Name <span style={{ color: "#ef4444" }}>*</span>
+        </label>
+        <input type="text" name="name" className="ctc-form-input" required />
       </div>
-      <div className="row">
-        <div className="form-group col-md-6">
-          <label htmlFor="phone">
-            Mobile No <span className="text-danger">*</span>
+
+      <div className="ctc-form-row">
+        <div>
+          <label className="ctc-form-label">
+            Mobile No <span style={{ color: "#ef4444" }}>*</span>
           </label>
-          <input
-            type="tel"
-            id="phone"
-            className="form-control"
-            name="phone"
-            // value={formData.phone}
-            // onChange={handleChange}
-            pattern="[0-9]{10}"
-            title="Enter 10 digit mobile number"
-            required
-          />
+          <input type="tel" name="phone" className="ctc-form-input" pattern="[0-9]{10}" title="Enter 10 digit number" required />
         </div>
-        <div className="form-group col-md-6">
-          <label htmlFor="email">
-            Email <span className="text-danger">*</span>
+        <div>
+          <label className="ctc-form-label">
+            Email <span style={{ color: "#ef4444" }}>*</span>
           </label>
-          <input
-            type="email"
-            // value={formData.email}
-            // onChange={handleChange}
-            className="form-control"
-            name="email"
-            id="email"
-            required
-          />
+          <input type="email" name="email" className="ctc-form-input" required />
         </div>
       </div>
 
-      {/* <div className="form-group mt-3">
-        <label htmlFor="file" className="form-label">
-          Upload Document
+      <div className="ctc-form-group">
+        <label className="ctc-form-label">
+          Message <span style={{ color: "#ef4444" }}>*</span>
         </label>
-        <input type="file" className="form-control" name="document" id="file" />
-      </div> */}
-      <div className="form-group mt-3">
-        <label htmlFor="message">
-          Message <span className="text-danger">*</span>
-        </label>
-        <textarea
-          className="form-control"
-          name="message"
-          rows="10"
-          required
-          minLength={25}
-        ></textarea>
+        <textarea name="message" className="ctc-form-input ctc-form-textarea" rows={5} required minLength={25} />
       </div>
-      <div className="text-center">
-        <button type="submit">Send Message</button>
-      </div>
+
+      <button type="submit" className="ctc-submit-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/>
+        </svg>
+        Send Message
+      </button>
     </form>
   );
 }

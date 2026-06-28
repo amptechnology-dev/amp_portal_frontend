@@ -12,136 +12,208 @@ import {
 
 export default function Footer({ data = {}, links = {} }) {
   const socialLinks = [
-    { icon: <FaFacebook />, href: links?.facebook, hoverColor: "#1877f2" },
-    { icon: <FaTwitter />, href: links?.twitter, hoverColor: "#1da1f2" },
-    { icon: <FaInstagram />, href: links?.instagram, hoverColor: "#e1306c" },
-    { icon: <FaLinkedin />, href: links?.linkedin, hoverColor: "#0a66c2" },
-    { icon: <FaYoutube />, href: links?.youtube, hoverColor: "#ff0000" },
+    { icon: <FaFacebook />, href: links?.facebook, cls: "footer-social-fb" },
+    { icon: <FaTwitter />,  href: links?.twitter,  cls: "footer-social-tw" },
+    { icon: <FaInstagram />,href: links?.instagram, cls: "footer-social-ig" },
+    { icon: <FaLinkedin />, href: links?.linkedin,  cls: "footer-social-li" },
+    { icon: <FaYoutube />,  href: links?.youtube,   cls: "footer-social-yt" },
   ].filter((s) => s.href);
 
   const quickLinks = [
-    { label: "Home", href: "#home" },
+    { label: "Home",     href: "#home" },
     { label: "About Us", href: "#about" },
     { label: "Products", href: "#products" },
-    { label: "Gallery", href: "#gallery" },
+    { label: "Gallery",  href: "#gallery" },
     { label: "Services", href: "#services" },
-    { label: "Contact", href: "#contact" },
+    { label: "Contact",  href: "#contact" },
   ];
 
   return (
     <>
       <style>{`
+        /* ── Root ── */
         .footer-root {
-          background: linear-gradient(135deg, #0f1f14 0%, #1a3320 50%, #0f1f14 100%);
-          color: #e2e8f0;
-          padding-top: 60px;
+          background: linear-gradient(135deg, #f0f4ff 0%, #fff7ed 100%);
+          color: #1e293b;
+          padding-top: 64px;
           font-family: 'Open Sans', sans-serif;
+          border-top: 3px solid transparent;
+          border-image: linear-gradient(90deg, #1e50c8, #f97316) 1;
         }
 
+        /* ── Section titles ── */
         .footer-section-title {
-          color: #5cb874;
-          font-weight: 700;
-          font-size: 13px;
-          letter-spacing: 2px;
+          font-size: 12px;
+          font-weight: 800;
+          letter-spacing: 2.5px;
           text-transform: uppercase;
+          color: #1e50c8;
           margin-bottom: 20px;
           padding-bottom: 10px;
-          border-bottom: 2px solid rgba(92, 184, 116, 0.3);
+          position: relative;
+        }
+        .footer-section-title::after {
+          content: '';
+          position: absolute;
+          bottom: 0; left: 0;
+          width: 36px; height: 3px;
+          border-radius: 3px;
+          background: linear-gradient(90deg, #1e50c8, #f97316);
         }
 
-        /* Social Icons */
+        /* ── Company name ── */
+        .footer-company-name {
+          font-size: 20px;
+          font-weight: 800;
+          background: linear-gradient(90deg, #1e50c8, #f97316);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          margin-bottom: 10px;
+        }
+
+        /* ── Tagline ── */
+        .footer-tagline {
+          color: #64748b;
+          font-size: 14px;
+          line-height: 1.8;
+          margin-bottom: 20px;
+        }
+
+        /* ── Social icons ── */
         .footer-social-link {
-          width: 36px;
-          height: 36px;
+          width: 36px; height: 36px;
           border-radius: 50%;
-          background: rgba(255, 255, 255, 0.08);
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: #fff;
+          border: 1.5px solid #dbeafe;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: #cbd5e1;
+          color: #1e50c8;
           font-size: 14px;
           text-decoration: none;
-          transition: all 0.3s ease;
+          transition: all 0.25s ease;
           flex-shrink: 0;
+          box-shadow: 0 2px 8px rgba(30,80,200,0.08);
         }
         .footer-social-link:hover {
           color: #fff;
           transform: translateY(-3px);
+          box-shadow: 0 6px 16px rgba(0,0,0,0.15);
         }
-        .footer-social-fb:hover  { background: #1877f2; border-color: #1877f2; }
-        .footer-social-tw:hover  { background: #1da1f2; border-color: #1da1f2; }
-        .footer-social-ig:hover  { background: #e1306c; border-color: #e1306c; }
-        .footer-social-li:hover  { background: #0a66c2; border-color: #0a66c2; }
-        .footer-social-yt:hover  { background: #ff0000; border-color: #ff0000; }
+        .footer-social-fb:hover { background: #1877f2; border-color: #1877f2; }
+        .footer-social-tw:hover { background: #1da1f2; border-color: #1da1f2; }
+        .footer-social-ig:hover { background: #e1306c; border-color: #e1306c; }
+        .footer-social-li:hover { background: #0a66c2; border-color: #0a66c2; }
+        .footer-social-yt:hover { background: #ff0000; border-color: #ff0000; }
 
-        /* Quick Links */
+        /* ── Quick links ── */
         .footer-nav-link {
-          color: #94a3b8;
+          color: #475569;
           font-size: 14px;
+          font-weight: 500;
           text-decoration: none;
           display: flex;
           align-items: center;
           gap: 8px;
-          transition: all 0.2s ease;
           padding-left: 0;
+          transition: all 0.2s ease;
         }
         .footer-nav-link:hover {
-          color: #5cb874;
+          color: #f97316;
           padding-left: 6px;
         }
-
-        /* Contact links */
-        .footer-contact-link {
-          color: #94a3b8;
-          font-size: 13px;
-          text-decoration: none;
-          transition: color 0.2s;
-        }
-        .footer-contact-link:hover {
-          color: #5cb874;
-        }
-
-        /* Contact icon box */
-        .footer-icon-box {
-          width: 32px;
-          height: 32px;
-          border-radius: 8px;
-          background: rgba(92, 184, 116, 0.15);
+        .footer-nav-arrow {
+          width: 18px; height: 18px;
+          border-radius: 50%;
+          background: #fff7ed;
+          border: 1px solid #fed7aa;
           display: flex;
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
+          transition: background 0.2s;
+        }
+        .footer-nav-link:hover .footer-nav-arrow {
+          background: #f97316;
+          border-color: #f97316;
+        }
+        .footer-nav-arrow svg {
+          color: #f97316;
+          transition: color 0.2s;
+        }
+        .footer-nav-link:hover .footer-nav-arrow svg {
+          color: #fff;
         }
 
-        /* Bottom bar */
+        /* ── Contact icon box ── */
+        .footer-icon-box {
+          width: 34px; height: 34px;
+          border-radius: 9px;
+          background: #fff;
+          border: 1.5px solid #dbeafe;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          box-shadow: 0 2px 6px rgba(30,80,200,0.08);
+        }
+
+        /* ── Contact links ── */
+        .footer-contact-link {
+          color: #475569;
+          font-size: 13px;
+          font-weight: 500;
+          text-decoration: none;
+          transition: color 0.2s;
+          word-break: break-all;
+        }
+        .footer-contact-link:hover { color: #f97316; }
+
+        /* ── Map border ── */
+        .footer-map-wrap {
+          border-radius: 14px;
+          overflow: hidden;
+          border: 2px solid #dbeafe;
+          box-shadow: 0 4px 16px rgba(30,80,200,0.08);
+        }
+
+        /* ── Bottom bar ── */
         .footer-bottom {
-          border-top: 1px solid rgba(255, 255, 255, 0.08);
+          border-top: 1px solid #e2e8f0;
           padding: 20px 0;
           display: flex;
           flex-wrap: wrap;
           justify-content: space-between;
           align-items: center;
           gap: 10px;
+          margin-top: 8px;
         }
         .footer-bottom p {
           margin: 0;
-          color: #64748b;
+          color: #94a3b8;
           font-size: 13px;
         }
+        .footer-bottom-name {
+          font-weight: 700;
+          background: linear-gradient(90deg, #1e50c8, #f97316);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
         .footer-bottom a {
-          color: #5cb874;
-          font-weight: 600;
+          color: #1e50c8;
+          font-weight: 700;
           text-decoration: none;
+          transition: color 0.2s;
         }
-        .footer-bottom a:hover {
-          color: #80c792;
-        }
+        .footer-bottom a:hover { color: #f97316; }
       `}</style>
 
       <footer className="footer-root">
         <div className="container">
           <div className="row g-5 pb-5">
+
             {/* Col 1 — Logo + About + Social */}
             <div className="col-lg-4 col-md-6">
               {data?.logo && (
@@ -149,62 +221,32 @@ export default function Footer({ data = {}, links = {} }) {
                   <Image
                     src={`https://${data.logo.slice(7)}`}
                     alt={data?.name || "Logo"}
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    style={{
-                      width: "auto",
-                      height: "55px",
-                      objectFit: "contain",
-                    }}
+                    width={0} height={0} sizes="100vw"
+                    style={{ width: "auto", height: "55px", objectFit: "contain" }}
                   />
                 </div>
               )}
-              <h5
-                style={{
-                  color: "#5cb874",
-                  fontWeight: "700",
-                  fontSize: "20px",
-                  marginBottom: "10px",
-                }}
-              >
-                {data?.name}
-              </h5>
-              <p
-                style={{
-                  color: "#94a3b8",
-                  fontSize: "14px",
-                  lineHeight: "1.8",
-                  marginBottom: "20px",
-                }}
-              >
+
+              <div className="footer-company-name">{data?.name}</div>
+
+              <p className="footer-tagline">
                 Providing reliable tech solutions since day one. Committed to
                 quality, innovation, and customer satisfaction.
               </p>
 
               {socialLinks.length > 0 && (
                 <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-                  {socialLinks.map(({ icon, href }, i) => {
-                    const cls =
-                      [
-                        "footer-social-fb",
-                        "footer-social-tw",
-                        "footer-social-ig",
-                        "footer-social-li",
-                        "footer-social-yt",
-                      ][i] || "";
-                    return (
-                      <a
-                        key={i}
-                        href={href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`footer-social-link ${cls}`}
-                      >
-                        {icon}
-                      </a>
-                    );
-                  })}
+                  {socialLinks.map(({ icon, href, cls }, i) => (
+                    <a
+                      key={i}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`footer-social-link ${cls}`}
+                    >
+                      {icon}
+                    </a>
+                  ))}
                 </div>
               )}
             </div>
@@ -214,10 +256,12 @@ export default function Footer({ data = {}, links = {} }) {
               <h6 className="footer-section-title">Quick Links</h6>
               <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
                 {quickLinks.map(({ label, href }) => (
-                  <li key={label} style={{ marginBottom: "10px" }}>
+                  <li key={label} style={{ marginBottom: "12px" }}>
                     <a href={href} className="footer-nav-link">
-                      <span style={{ color: "#5cb874", fontSize: "10px" }}>
-                        ▶
+                      <span className="footer-nav-arrow">
+                        <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
                       </span>
                       {label}
                     </a>
@@ -231,67 +275,31 @@ export default function Footer({ data = {}, links = {} }) {
               <h6 className="footer-section-title">Contact Us</h6>
               <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
                 {data?.address && (
-                  <li
-                    style={{
-                      display: "flex",
-                      alignItems: "flex-start",
-                      gap: "12px",
-                      marginBottom: "16px",
-                    }}
-                  >
+                  <li style={{ display: "flex", alignItems: "flex-start", gap: "12px", marginBottom: "16px" }}>
                     <span className="footer-icon-box">
-                      <FaMapMarkerAlt
-                        style={{ color: "#5cb874", fontSize: "13px" }}
-                      />
+                      <FaMapMarkerAlt style={{ color: "#f97316", fontSize: "13px" }} />
                     </span>
-                    <span
-                      style={{
-                        color: "#94a3b8",
-                        fontSize: "13px",
-                        lineHeight: "1.6",
-                      }}
-                    >
+                    <span style={{ color: "#475569", fontSize: "13px", lineHeight: "1.65" }}>
                       {data.address}
                     </span>
                   </li>
                 )}
                 {data?.email && (
-                  <li
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "12px",
-                      marginBottom: "16px",
-                    }}
-                  >
+                  <li style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "16px" }}>
                     <span className="footer-icon-box">
-                      <FaEnvelope
-                        style={{ color: "#5cb874", fontSize: "13px" }}
-                      />
+                      <FaEnvelope style={{ color: "#1e50c8", fontSize: "13px" }} />
                     </span>
-                    <a
-                      href={`mailto:${data.email}`}
-                      className="footer-contact-link"
-                    >
+                    <a href={`mailto:${data.email}`} className="footer-contact-link">
                       {data.email}
                     </a>
                   </li>
                 )}
                 {data?.mobile && (
-                  <li
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "12px",
-                    }}
-                  >
+                  <li style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                     <span className="footer-icon-box">
-                      <FaPhone style={{ color: "#5cb874", fontSize: "13px" }} />
+                      <FaPhone style={{ color: "#1e50c8", fontSize: "13px" }} />
                     </span>
-                    <a
-                      href={`tel:${data.mobile}`}
-                      className="footer-contact-link"
-                    >
+                    <a href={`tel:${data.mobile}`} className="footer-contact-link">
                       +91 {data.mobile}
                     </a>
                   </li>
@@ -302,13 +310,7 @@ export default function Footer({ data = {}, links = {} }) {
             {/* Col 4 — Map */}
             <div className="col-lg-3 col-md-6">
               <h6 className="footer-section-title">Find Us</h6>
-              <div
-                style={{
-                  borderRadius: "12px",
-                  overflow: "hidden",
-                  border: "2px solid rgba(92,184,116,0.25)",
-                }}
-              >
+              <div className="footer-map-wrap">
                 <iframe
                   src={`https://maps.google.com/maps?q=${encodeURIComponent(data?.address || "India")}&output=embed`}
                   width="100%"
@@ -326,18 +328,12 @@ export default function Footer({ data = {}, links = {} }) {
           <div className="footer-bottom">
             <p>
               © {new Date().getFullYear()}{" "}
-              <span style={{ color: "#5cb874", fontWeight: "600" }}>
-                {data?.name}
-              </span>
+              <span className="footer-bottom-name">{data?.name}</span>
               . All Rights Reserved.
             </p>
             <p>
               Designed by{" "}
-              <a
-                href="https://amptechnology.in"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a href="https://amptechnology.in" target="_blank" rel="noopener noreferrer">
                 AmpTechnology
               </a>
             </p>
