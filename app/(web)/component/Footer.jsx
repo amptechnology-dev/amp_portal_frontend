@@ -8,24 +8,25 @@ import {
   FaEnvelope,
   FaPhone,
   FaMapMarkerAlt,
+  FaWhatsapp,
 } from "react-icons/fa";
 
 export default function Footer({ data = {}, links = {} }) {
   const socialLinks = [
     { icon: <FaFacebook />, href: links?.facebook, cls: "footer-social-fb" },
-    { icon: <FaTwitter />,  href: links?.twitter,  cls: "footer-social-tw" },
-    { icon: <FaInstagram />,href: links?.instagram, cls: "footer-social-ig" },
-    { icon: <FaLinkedin />, href: links?.linkedin,  cls: "footer-social-li" },
-    { icon: <FaYoutube />,  href: links?.youtube,   cls: "footer-social-yt" },
+    { icon: <FaTwitter />, href: links?.twitter, cls: "footer-social-tw" },
+    { icon: <FaInstagram />, href: links?.instagram, cls: "footer-social-ig" },
+    { icon: <FaLinkedin />, href: links?.linkedin, cls: "footer-social-li" },
+    { icon: <FaYoutube />, href: links?.youtube, cls: "footer-social-yt" },
   ].filter((s) => s.href);
 
   const quickLinks = [
-    { label: "Home",     href: "#home" },
+    { label: "Home", href: "#home" },
     { label: "About Us", href: "#about" },
     { label: "Products", href: "#products" },
-    { label: "Gallery",  href: "#gallery" },
+    { label: "Gallery", href: "#gallery" },
     { label: "Services", href: "#services" },
-    { label: "Contact",  href: "#contact" },
+    { label: "Contact", href: "#contact" },
   ];
 
   return (
@@ -81,31 +82,31 @@ export default function Footer({ data = {}, links = {} }) {
         }
 
         /* ── Social icons ── */
-        .footer-social-link {
-          width: 36px; height: 36px;
-          border-radius: 50%;
-          background: #fff;
-          border: 1.5px solid #dbeafe;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #1e50c8;
-          font-size: 14px;
-          text-decoration: none;
-          transition: all 0.25s ease;
-          flex-shrink: 0;
-          box-shadow: 0 2px 8px rgba(30,80,200,0.08);
-        }
-        .footer-social-link:hover {
-          color: #fff;
-          transform: translateY(-3px);
-          box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-        }
-        .footer-social-fb:hover { background: #1877f2; border-color: #1877f2; }
-        .footer-social-tw:hover { background: #1da1f2; border-color: #1da1f2; }
-        .footer-social-ig:hover { background: #e1306c; border-color: #e1306c; }
-        .footer-social-li:hover { background: #0a66c2; border-color: #0a66c2; }
-        .footer-social-yt:hover { background: #ff0000; border-color: #ff0000; }
+.footer-social-link {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 14px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(30,80,200,0.08);
+}
+.footer-social-link:hover {
+  transform: translateY(-3px);
+  filter: brightness(1.1);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+.footer-social-fb { background: #1877f2; }
+.footer-social-tw { background: #1da1f2; }
+.footer-social-ig { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+.footer-social-li { background: #0a66c2; }
+.footer-social-yt { background: #ff0000; }
+.footer-social-wa { background: #25d366; }
 
         /* ── Quick links ── */
         .footer-nav-link {
@@ -208,12 +209,20 @@ export default function Footer({ data = {}, links = {} }) {
           transition: color 0.2s;
         }
         .footer-bottom a:hover { color: #f97316; }
+        .footer-icon-box {
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.footer-icon-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
       `}</style>
 
       <footer className="footer-root">
         <div className="container">
           <div className="row g-5 pb-5">
-
             {/* Col 1 — Logo + About + Social */}
             <div className="col-lg-4 col-md-6">
               {data?.logo && (
@@ -221,8 +230,14 @@ export default function Footer({ data = {}, links = {} }) {
                   <Image
                     src={`https://${data.logo.slice(7)}`}
                     alt={data?.name || "Logo"}
-                    width={0} height={0} sizes="100vw"
-                    style={{ width: "auto", height: "55px", objectFit: "contain" }}
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    style={{
+                      width: "auto",
+                      height: "55px",
+                      objectFit: "contain",
+                    }}
                   />
                 </div>
               )}
@@ -259,8 +274,17 @@ export default function Footer({ data = {}, links = {} }) {
                   <li key={label} style={{ marginBottom: "12px" }}>
                     <a href={href} className="footer-nav-link">
                       <span className="footer-nav-arrow">
-                        <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M5 12h14M12 5l7 7-7 7"/>
+                        <svg
+                          width="8"
+                          height="8"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="3"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M5 12h14M12 5l7 7-7 7" />
                         </svg>
                       </span>
                       {label}
@@ -275,32 +299,105 @@ export default function Footer({ data = {}, links = {} }) {
               <h6 className="footer-section-title">Contact Us</h6>
               <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
                 {data?.address && (
-                  <li style={{ display: "flex", alignItems: "flex-start", gap: "12px", marginBottom: "16px" }}>
-                    <span className="footer-icon-box">
-                      <FaMapMarkerAlt style={{ color: "#f97316", fontSize: "13px" }} />
-                    </span>
-                    <span style={{ color: "#475569", fontSize: "13px", lineHeight: "1.65" }}>
+                  <li
+                    style={{
+                      display: "flex",
+                      alignItems: "flex-start",
+                      gap: "12px",
+                      marginBottom: "16px",
+                    }}
+                  >
+                    <a
+                      href={`https://maps.google.com/maps?q=${encodeURIComponent(data.address)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="footer-icon-box"
+                    >
+                      <FaMapMarkerAlt
+                        style={{ color: "#f97316", fontSize: "13px" }}
+                      />
+                    </a>
+                    <span
+                      style={{
+                        color: "#475569",
+                        fontSize: "13px",
+                        lineHeight: "1.65",
+                      }}
+                    >
                       {data.address}
                     </span>
                   </li>
                 )}
                 {data?.email && (
-                  <li style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "16px" }}>
-                    <span className="footer-icon-box">
-                      <FaEnvelope style={{ color: "#1e50c8", fontSize: "13px" }} />
-                    </span>
-                    <a href={`mailto:${data.email}`} className="footer-contact-link">
+                  <li
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "12px",
+                      marginBottom: "16px",
+                    }}
+                  >
+                    <a
+                      href={`mailto:${data.email}`}
+                      className="footer-icon-box"
+                    >
+                      <FaEnvelope
+                        style={{ color: "#1e50c8", fontSize: "13px" }}
+                      />
+                    </a>
+                    <a
+                      href={`mailto:${data.email}`}
+                      className="footer-contact-link"
+                    >
                       {data.email}
                     </a>
                   </li>
                 )}
                 {data?.mobile && (
-                  <li style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                    <span className="footer-icon-box">
+                  <li
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "12px",
+                      marginBottom: data?.whatsapp ? "16px" : 0,
+                    }}
+                  >
+                    <a href={`tel:${data.mobile}`} className="footer-icon-box">
                       <FaPhone style={{ color: "#1e50c8", fontSize: "13px" }} />
-                    </span>
-                    <a href={`tel:${data.mobile}`} className="footer-contact-link">
+                    </a>
+                    <a
+                      href={`tel:${data.mobile}`}
+                      className="footer-contact-link"
+                    >
                       +91 {data.mobile}
+                    </a>
+                  </li>
+                )}
+                {data?.whatsapp && (
+                  <li
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "12px",
+                    }}
+                  >
+                    <a
+                      href={`https://wa.me/91${data.whatsapp}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="footer-icon-box"
+                    >
+                      <FaWhatsapp
+                        style={{ color: "#16a34a", fontSize: "13px" }}
+                      />
+                    </a>
+                    <a
+                      href={`https://wa.me/91${data.whatsapp}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="footer-contact-link"
+                    >
+                      +91 {data.whatsapp}
                     </a>
                   </li>
                 )}
@@ -328,12 +425,16 @@ export default function Footer({ data = {}, links = {} }) {
           <div className="footer-bottom">
             <p>
               © {new Date().getFullYear()}{" "}
-              <span className="footer-bottom-name">{data?.name}</span>
-              . All Rights Reserved.
+              <span className="footer-bottom-name">{data?.name}</span>. All
+              Rights Reserved.
             </p>
             <p>
-              Designed by{" "}
-              <a href="https://amptechnology.in" target="_blank" rel="noopener noreferrer">
+              Designed and developed by{" "}
+              <a
+                href="https://amptechnology.in"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 AmpTechnology
               </a>
             </p>

@@ -4,6 +4,7 @@ import "./global.css";
 import Header from "./component/Header";
 import Footer from "./component/Footer";
 import WhatsAppButton from "./component/WhatsAppButton";
+import ScrollToTop from "./component/ScrollToTop";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -82,6 +83,7 @@ export default async function RootLayout({ children }) {
       <body className={inter.className}>
         <Header data={officeData} links={socialData} />
         <WhatsAppButton />
+        <ScrollToTop />
         {children}
         <Footer data={officeData} links={socialData} />
       </body>

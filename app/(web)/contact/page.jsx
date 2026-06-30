@@ -275,9 +275,17 @@ export default async function ContactSection() {
               <div className="ctc-info-card">
                 {officeData?.address && (
                   <div className="ctc-info-item">
-                    <div className="ctc-icon-box" style={{ background: "#fff7ed", border: "1.5px solid #fed7aa" }}>
+                    <a
+                      href={`https://maps.google.com/maps?q=${encodeURIComponent(
+                        (officeData?.address || "") + " " + (officeData?.landmark || "")
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="ctc-icon-box"
+                      style={{ background: "#fff7ed", border: "1.5px solid #fed7aa", textDecoration: "none" }}
+                    >
                       <FaMapMarkerAlt style={{ color: "#f97316" }} />
-                    </div>
+                    </a>
                     <div>
                       <div className="ctc-info-label">Location</div>
                       <span className="ctc-info-value">{officeData.address}</span>
@@ -286,9 +294,13 @@ export default async function ContactSection() {
                 )}
                 {officeData?.email && (
                   <div className="ctc-info-item">
-                    <div className="ctc-icon-box" style={{ background: "#eff6ff", border: "1.5px solid #dbeafe" }}>
+                    <a
+                      href={`mailto:${officeData.email}`}
+                      className="ctc-icon-box"
+                      style={{ background: "#eff6ff", border: "1.5px solid #dbeafe", textDecoration: "none" }}
+                    >
                       <FaEnvelope style={{ color: "#1e50c8" }} />
-                    </div>
+                    </a>
                     <div>
                       <div className="ctc-info-label">Email</div>
                       <a href={`mailto:${officeData.email}`} className="ctc-info-value">{officeData.email}</a>
@@ -297,9 +309,13 @@ export default async function ContactSection() {
                 )}
                 {officeData?.mobile && (
                   <div className="ctc-info-item">
-                    <div className="ctc-icon-box" style={{ background: "#eff6ff", border: "1.5px solid #dbeafe" }}>
+                    <a
+                      href={`tel:${officeData.mobile}`}
+                      className="ctc-icon-box"
+                      style={{ background: "#eff6ff", border: "1.5px solid #dbeafe", textDecoration: "none" }}
+                    >
                       <FaPhone style={{ color: "#1e50c8" }} />
-                    </div>
+                    </a>
                     <div>
                       <div className="ctc-info-label">Phone</div>
                       <a href={`tel:${officeData.mobile}`} className="ctc-info-value">+91 {officeData.mobile}</a>
@@ -308,12 +324,23 @@ export default async function ContactSection() {
                 )}
                 {officeData?.whatsapp && (
                   <div className="ctc-info-item">
-                    <div className="ctc-icon-box" style={{ background: "#f0fdf4", border: "1.5px solid #bbf7d0" }}>
+                    <a
+                      href={`https://wa.me/91${officeData.whatsapp}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="ctc-icon-box"
+                      style={{ background: "#f0fdf4", border: "1.5px solid #bbf7d0", textDecoration: "none" }}
+                    >
                       <FaWhatsapp style={{ color: "#16a34a" }} />
-                    </div>
+                    </a>
                     <div>
                       <div className="ctc-info-label">WhatsApp</div>
-                      <a href={`https://wa.me/91${officeData.whatsapp}`} target="_blank" rel="noopener noreferrer" className="ctc-info-value">
+                      <a
+                        href={`https://wa.me/91${officeData.whatsapp}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="ctc-info-value"
+                      >
                         +91 {officeData.whatsapp}
                       </a>
                     </div>
