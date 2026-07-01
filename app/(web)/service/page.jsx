@@ -1,4 +1,4 @@
-import { FaDribbble } from "react-icons/fa";
+import { getServiceIcon } from "@/app/lib/serviceIcons";
 
 async function getData() {
   try {
@@ -22,7 +22,6 @@ async function getData() {
   }
 }
 
-// Blue/Orange alternating accent colors
 const ACCENT_COLORS = [
   { bg: "#eff6ff", icon: "#1e50c8", border: "#dbeafe" },
   { bg: "#fff7ed", icon: "#f97316", border: "#fed7aa" },
@@ -40,12 +39,12 @@ export default async function ServiceGrid() {
   return (
     <>
       <style>{`
+        /* ... same CSS as before, unchanged ... */
         #services {
           background: linear-gradient(135deg, #fff7ed 0%, #f0f4ff 100%);
           padding: 80px 0;
           font-family: 'Open Sans', sans-serif;
         }
-
         .svc-badge {
           display: inline-flex;
           align-items: center;
@@ -68,7 +67,6 @@ export default async function ServiceGrid() {
           background: #f97316;
           flex-shrink: 0;
         }
-
         .svc-title {
           font-size: clamp(26px, 4vw, 38px);
           font-weight: 800;
@@ -81,14 +79,12 @@ export default async function ServiceGrid() {
           -webkit-text-fill-color: transparent;
           background-clip: text;
         }
-
         .svc-divider {
           width: 48px; height: 4px;
           border-radius: 4px;
           background: linear-gradient(90deg, #1e50c8, #f97316);
           margin: 12px auto 48px;
         }
-
         .svc-grid {
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -97,7 +93,6 @@ export default async function ServiceGrid() {
           margin: 0 auto;
           padding: 0 20px;
         }
-
         .svc-card {
           background: #fff;
           border-radius: 18px;
@@ -121,7 +116,6 @@ export default async function ServiceGrid() {
           transform: translateY(-6px);
           box-shadow: 0 18px 40px rgba(30,80,200,0.13);
         }
-
         .svc-icon-wrap {
           width: 56px; height: 56px;
           border-radius: 14px;
@@ -136,7 +130,6 @@ export default async function ServiceGrid() {
         .svc-card:hover .svc-icon-wrap {
           transform: scale(1.1) rotate(-4deg);
         }
-
         .svc-card-title {
           font-size: 17px;
           font-weight: 800;
@@ -144,14 +137,12 @@ export default async function ServiceGrid() {
           margin-bottom: 10px;
           line-height: 1.35;
         }
-
         .svc-card-desc {
           color: #64748b;
           font-size: 14px;
           line-height: 1.8;
           margin: 0;
         }
-
         .svc-card-arrow {
           display: inline-flex;
           align-items: center;
@@ -180,13 +171,9 @@ export default async function ServiceGrid() {
         <div className="svc-grid">
           {data?.map((item, index) => {
             const accent = ACCENT_COLORS[index % ACCENT_COLORS.length];
+            const IconComp = getServiceIcon(item.logo);
             return (
-              <a
-                key={index}
-                href={item.url || "#"}
-                className="svc-card"
-                style={{ color: "inherit" }}
-              >
+              <div key={index} className="svc-card" style={{ color: "inherit" }}>
                 <div
                   className="svc-icon-wrap"
                   style={{
@@ -195,17 +182,11 @@ export default async function ServiceGrid() {
                     color: accent.icon,
                   }}
                 >
-                  <FaDribbble />
+                  <IconComp />
                 </div>
                 <h4 className="svc-card-title">{item.name}</h4>
                 <p className="svc-card-desc">{item.description}</p>
-                <div className="svc-card-arrow">
-                  Learn more
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
-                  </svg>
-                </div>
-              </a>
+              </div>
             );
           })}
         </div>

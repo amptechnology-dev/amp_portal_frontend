@@ -1,6 +1,16 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { FaEnvelope, FaPhone, FaList, FaTwitter, FaFacebook, FaInstagram, FaYoutube, FaLinkedin, FaTimes } from "react-icons/fa";
+import {
+  FaEnvelope,
+  FaPhone,
+  FaList,
+  FaTwitter,
+  FaFacebook,
+  FaInstagram,
+  FaYoutube,
+  FaLinkedin,
+  FaTimes,
+} from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -10,8 +20,14 @@ const Header = ({ data, links = {} }) => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   const sections = [
-    "home", "about", "products", "gallery",
-    "services", "team", "recruitment", "contact",
+    "home",
+    "about",
+    "products",
+    "gallery",
+    "services",
+    "team",
+    "recruitment",
+    "contact",
   ];
 
   const socialItems = [
@@ -31,7 +47,10 @@ const Header = ({ data, links = {} }) => {
         const el = document.getElementById(section);
         if (el) {
           const { offsetTop, offsetHeight } = el;
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+          if (
+            scrollPosition >= offsetTop &&
+            scrollPosition < offsetTop + offsetHeight
+          ) {
             found = true;
             setActiveSection(section);
           }
@@ -66,12 +85,12 @@ const Header = ({ data, links = {} }) => {
   };
 
   const navItems = [
-    { id: "home",     label: "Home",     href: "/#home" },
-    { id: "about",    label: "About Us", href: "/#about" },
+    { id: "home", label: "Home", href: "/#home" },
+    { id: "about", label: "About Us", href: "/#about" },
     { id: "products", label: "Products", href: "/#products" },
-    { id: "gallery",  label: "Gallery",  href: "#gallery" },
+    { id: "gallery", label: "Gallery", href: "#gallery" },
     { id: "services", label: "Services", href: "/#services" },
-    { id: "contact",  label: "Contact",  href: "/#contact" },
+    { id: "contact", label: "Contact", href: "/#contact" },
   ];
 
   return (
@@ -79,14 +98,23 @@ const Header = ({ data, links = {} }) => {
       <style>{`
         /* ── Base header ── */
         #amp-header {
-          position: sticky;
-          top: 0;
-          z-index: 999;
-          background: #ffffff;
-          border-bottom: 2px solid #f0f4ff;
-          transition: box-shadow 0.3s ease;
-          font-family: 'Open Sans', sans-serif;
-        }
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  background: #ffffff;
+  border-bottom: 2px solid #f0f4ff;
+  transition: box-shadow 0.3s ease;
+  font-family: 'Open Sans', sans-serif;
+  width: 100%;
+}
+
+@media (max-width: 1199px) {
+  #amp-header {
+    position: fixed;
+    left: 0;
+    right: 0;
+  }
+}
         #amp-header.scrolled {
           box-shadow: 0 4px 20px rgba(30, 80, 200, 0.10);
         }
@@ -100,6 +128,13 @@ const Header = ({ data, links = {} }) => {
           align-items: center;
           justify-content: space-between;
           gap: 12px;
+        }
+
+        .amp-logo-title {
+        background: linear-gradient(90deg, #1e50c8, #f97316);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
         }
 
         /* ── Nav links ── */
@@ -187,35 +222,35 @@ const Header = ({ data, links = {} }) => {
         }
 
         /* ── Social icons in nav ── */
-        .amp-social-wrap {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          margin-left: 4px;
-          padding-left: 10px;
-          border-left: 1.5px solid #e2e8f0;
-        }
-        .amp-social-icon {
-          width: 30px;
-          height: 30px;
-          border-radius: 50%;
-          background: #f0f4ff;
-          border: 1px solid #dbeafe;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #1e50c8;
-          font-size: 13px;
-          text-decoration: none;
-          transition: all 0.25s ease;
-          flex-shrink: 0;
-        }
-        .amp-social-icon:hover { transform: translateY(-2px); color: #fff; }
-        .nav-social-fb:hover { background: #1877f2; border-color: #1877f2; }
-        .nav-social-tw:hover { background: #1da1f2; border-color: #1da1f2; }
-        .nav-social-ig:hover { background: #e1306c; border-color: #e1306c; }
-        .nav-social-li:hover { background: #0a66c2; border-color: #0a66c2; }
-        .nav-social-yt:hover { background: #ff0000; border-color: #ff0000; }
+.amp-social-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 4px;
+  padding-left: 10px;
+  border-left: 1.5px solid #e2e8f0;
+}
+.amp-social-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 13px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+}
+.amp-social-icon:hover { transform: translateY(-2px); filter: brightness(1.1); }
+
+.nav-social-fb { background: #1877f2; }
+.nav-social-tw { background: #1da1f2; }
+.nav-social-ig { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+.nav-social-li { background: #0a66c2; }
+.nav-social-yt { background: #ff0000; }
+.nav-social-wa { background: #25d366; }
 
         /* ── Mobile toggle button ── */
         .amp-toggle {
@@ -294,24 +329,65 @@ const Header = ({ data, links = {} }) => {
         @media (min-width: 1200px) {
           .amp-mobile-menu { display: none !important; }
         }
+       
+        @media (max-width: 1199px) {
+        body {
+        padding-top: 70px;
+        }
+        }
       `}</style>
 
       <div id="amp-header" className={isScrolled ? "scrolled" : ""}>
         <div className="amp-inner">
-
-          {/* Logo */}
-          <Link href="/" style={{ flexShrink: 0 }}>
+          {/* Logo + Office Name */}
+          <Link
+            href="/"
+            style={{
+              flexShrink: 1,
+              minWidth: 0,
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              textDecoration: "none",
+            }}
+          >
             <Image
               src={`https://${data?.logo?.slice(7)}`}
               alt={data?.name || "Logo"}
-              width={0} height={0} sizes="100vw"
-              style={{ width: "auto", height: "52px", objectFit: "contain" }}
+              width={0}
+              height={0}
+              sizes="100vw"
+              style={{
+                width: "auto",
+                height: "52px",
+                objectFit: "contain",
+                flexShrink: 0,
+              }}
               priority
             />
+            {data?.name && (
+              <span
+                className="amp-logo-title"
+                style={{
+                  fontSize: "clamp(13px, 3.8vw, 18px)",
+                  fontWeight: 800,
+                  letterSpacing: "0.3px",
+                  lineHeight: 1.1,
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {data.name}
+              </span>
+            )}
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="amp-desktop-nav" style={{ display: "flex", alignItems: "center", gap: "2px" }}>
+          <nav
+            className="amp-desktop-nav"
+            style={{ display: "flex", alignItems: "center", gap: "2px" }}
+          >
             <ul className="amp-nav">
               {navItems.map(({ id, label, href }) => (
                 <li key={id}>
@@ -335,7 +411,9 @@ const Header = ({ data, links = {} }) => {
                     {data.email}
                   </a>
                 )}
-                {data?.email && data?.mobile && <span className="amp-divider" />}
+                {data?.email && data?.mobile && (
+                  <span className="amp-divider" />
+                )}
                 {data?.mobile && (
                   <a href={`tel:${data.mobile}`} className="amp-contact-link">
                     <FaPhone />
@@ -364,7 +442,11 @@ const Header = ({ data, links = {} }) => {
           </nav>
 
           {/* Mobile toggle */}
-          <button className="amp-toggle" onClick={toggleMobileNav} aria-label="Toggle menu">
+          <button
+            className="amp-toggle"
+            onClick={toggleMobileNav}
+            aria-label="Toggle menu"
+          >
             {navbarMobile ? <FaTimes /> : <FaList />}
           </button>
         </div>
